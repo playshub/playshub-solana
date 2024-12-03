@@ -12,6 +12,8 @@
   "dependencies": {
     "@ant-design/icons": "^5.4.0",
     "@ant-design/nextjs-registry": "^1.0.2",
+    "@ant-design/web3": "^1.18.0",
+    "@ant-design/web3-solana": "^1.2.2",
     "@aptos-labs/ts-sdk": "^1.26.0",
     "@aptos-labs/wallet-adapter-react": "^3.5.10",
     "@next/third-parties": "^15.0.3",

@@ -1,10 +1,4 @@
 "use client";
-import { DisconnectOutlined } from "@ant-design/icons";
-import {
-  useTonAddress,
-  useTonConnectModal,
-  useTonConnectUI,
-} from "@tonconnect/ui-react";
 import {
   Avatar,
   Button,
@@ -16,28 +10,27 @@ import {
   Space,
   Typography,
 } from "antd";
-import { formatAddress } from "../../../utils/ton";
-import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { getProfile } from "../../../apis/account/profile";
 import { useQuery } from "@tanstack/react-query";
+import { ConnectButton, Connector } from "@ant-design/web3";
+import { useWallet } from "@ant-design/web3-solana";
+import { useSolanaBalance } from "@/hooks/useSolanaBalace";
 
 enum WalletType {
   TON = "TON",
   BNB = "BNB",
   PLAYS = "PLAYS",
+  SOLANA = "SOLANA",
 }
 
 export default function Wallet() {
-  const { open } = useTonConnectModal();
-  const [tonConnectUI] = useTonConnectUI();
-  const userFriendlyAddress = useTonAddress();
-  const { connect, connectors } = useConnect();
-  const { address, isConnected } = useAccount();
-  const { disconnect } = useDisconnect();
   const { data } = useQuery({
     queryKey: ["profile"],
     queryFn: getProfile,
   });
+  const balance = useSolanaBalance();
+
+  const { publicKey } = useWallet();
 
   const wallets = [
     {
@@ -47,41 +40,18 @@ export default function Wallet() {
       actions: [],
     },
     {
-      name: "TON",
-      image: "/icons/play/ton-icon.png",
-      usdPrice: data?.currency?.ton || 0,
+      name: "Solana",
+      image: "/icons/play/solana-icon.png",
+      usdPrice: 0,
       actions: [
-        tonConnectUI.connected ? (
-          <Space>
-            <Typography.Text>
-              {formatAddress(userFriendlyAddress)}
-            </Typography.Text>
-            <Button
-              onClick={async () => {
-                await tonConnectUI.disconnect();
-              }}
-              icon={<DisconnectOutlined />}
-            ></Button>
-          </Space>
-        ) : (
-          <Button
-            type="primary"
-            onClick={() => {
-              open();
-            }}
-          >
-            Connect
-          </Button>
-        ),
+        <Connector modalProps={{ mode: "simple", group: false }} key="solana">
+          <ConnectButton quickConnect />
+        </Connector>,
       ],
     },
   ];
 
-  const selectedWallet = tonConnectUI.connected
-    ? WalletType.TON
-    : isConnected
-    ? WalletType.BNB
-    : WalletType.PLAYS;
+  const selectedWallet = publicKey ? WalletType.SOLANA : WalletType.PLAYS;
 
   return (
     <div>
@@ -94,12 +64,11 @@ export default function Wallet() {
                   src={
                     selectedWallet === WalletType.PLAYS
                       ? "/icons/play/$plays-coin.png"
-                      : selectedWallet === WalletType.TON
-                      ? "/icons/play/ton-icon.png"
-                      : "/icons/play/bnb-icon.png"
+                      : "/icons/play/solana-icon.png"
                   }
                   preview={false}
                   width={80}
+                  alt=""
                 />
               </div>
               <div
@@ -112,15 +81,9 @@ export default function Wallet() {
                 <Typography.Text style={{ fontWeight: "bold" }}>
                   {selectedWallet === WalletType.PLAYS
                     ? data?.currency?.plays
-                    : selectedWallet === WalletType.TON
-                    ? data?.currency?.ton
-                    : data?.currency?.bnb}{" "}
+                    : balance?.toString()}{" "}
                   <Typography.Text style={{ color: "#01BEED" }}>
-                    {selectedWallet === WalletType.PLAYS
-                      ? "$PLAYS"
-                      : selectedWallet === WalletType.TON
-                      ? "TON"
-                      : "BNB"}
+                    {selectedWallet === WalletType.PLAYS ? "$PLAYS" : "SOL"}
                   </Typography.Text>
                 </Typography.Text>
               </div>
