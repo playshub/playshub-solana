@@ -1,0 +1,70 @@
+/* GLOBAL */
+body {
+  margin: 0;
+}
+/* MENU */
+.ant-menu-item {
+  width: 20%;
+  .ant-typography {
+    color: #A8A8A8;
+  }
+}
+
+.ant-menu-item-selected {
+  background-color: #DFF0FF !important;
+  .ant-typography {
+    color: #57A8E5;
+  }
+}
+.ant-menu-item-selected::after {
+  border-bottom: none !important;
+}
+
+/* LIST */
+.ant-list-item-meta-title {
+  margin-bottom: 0px !important;
+  font-family: 'myriadpro-bold';
+}
+
+.ant-list-item-meta {
+  align-items: center !important;
+}
+
+/* BUTTON */
+.ant-btn {
+  font-size: 16px;
+  font-weight: bold;
+}
+/* primary */
+.ant-btn-primary {
+  background: #53ADE3 !important;
+}
+
+/* PROGRESS */
+.ant-progress-inner {
+  background-color: #ffffff !important;
+}
+.ant-progress-bg {
+  background-color: #8CE936 !important;
+  height: 12px !important;
+}
+
+/* BADGE */
+.ant-badge-count {
+  left: 50%;
+  top: 100% !important;
+  transform: translate(-50%, -50%) !important;
+  inset-inline-end: auto !important;
+}
+
+/* DRAWER */
+.ant-drawer {
+  z-index: 999 !important;
+}
+.ant-drawer-header-title {
+  justify-content: end;
+}
+.ant-drawer-body {
+  padding: 0px !important;
+  
+}
