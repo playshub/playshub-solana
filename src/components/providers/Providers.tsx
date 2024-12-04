@@ -8,6 +8,7 @@ import { ConfigProvider } from "antd";
 import NotificationProvider from "@/components/providers/NotificationProvider";
 import { AptosWalletProvider } from "@/components/providers/AptosWalletProvider";
 import { PropsWithChildren } from "react";
+import { SolWalletProvider } from "./SolanaWalletProvider";
 
 const queryClient = new QueryClient();
 
@@ -27,7 +28,9 @@ export function Providers({ children }: PropsWithChildren) {
                 },
               }}
             >
-              <AptosWalletProvider>{children}</AptosWalletProvider>
+              <AptosWalletProvider>
+                <SolWalletProvider>{children}</SolWalletProvider>
+              </AptosWalletProvider>
             </ConfigProvider>
           </NotificationProvider>
         </TonConnectUIProvider>

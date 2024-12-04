@@ -1,14 +1,35 @@
 "use client";
-import { Avatar, Button, Col, Flex, Image, Row, Space, Typography } from "antd";
-
-enum WalletType {
-  TON = "TON",
-  BNB = "BNB",
-  PLAYS = "PLAYS",
-  SOLANA = "SOLANA",
-}
+import { useSolWallet } from "@/components/providers/SolanaWalletProvider";
+import WalletInitialize from "@/components/wallet/WalletInitialize";
+import { formatAddress } from "@/utils/ton";
+import {
+  CopyOutlined,
+  DeleteOutlined,
+  ExportOutlined,
+} from "@ant-design/icons";
+import {
+  Avatar,
+  Button,
+  Col,
+  Divider,
+  Flex,
+  Image,
+  Modal,
+  Row,
+  Space,
+  Typography,
+} from "antd";
+import { useState } from "react";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 export default function Wallet() {
+  const { isInitialized, wallet, deleteWallet } = useSolWallet();
+  const [open, setOpen] = useState(false);
+
+  if (!isInitialized) {
+    return <WalletInitialize />;
+  }
+
   return (
     <div>
       <div style={{ padding: "10px 0px" }}>
@@ -23,24 +44,71 @@ export default function Wallet() {
                   alt=""
                 />
               </div>
-              <div
+              <Flex
+                align="center"
                 style={{
                   background: "#DBDBDB",
                   padding: "5px 40px",
                   borderRadius: 10,
                 }}
               >
-                <Typography.Text style={{ fontWeight: "bold" }}>
-                  0{" "}
-                  <Typography.Text style={{ color: "#01BEED" }}>
-                    SOL
-                  </Typography.Text>
+                <Typography.Text style={{ flex: 1 }}>
+                  {formatAddress(wallet?.publicKey!)}
                 </Typography.Text>
-              </div>
+                <CopyToClipboard text={wallet?.publicKey!}>
+                  <Button icon={<CopyOutlined />} type="text"></Button>
+                </CopyToClipboard>
+              </Flex>
+            </Flex>
+          </Col>
+          <Col span={24}>
+            <Divider />
+            <Typography.Text style={{ fontSize: 16, fontWeight: "bold" }}>
+              Privacy
+            </Typography.Text>
+          </Col>
+          <Col span={24}>
+            <Flex vertical gap={10}>
+              <Button
+                icon={<ExportOutlined />}
+                size="large"
+                type="primary"
+                onClick={() => setOpen(true)}
+              >
+                Export Private Key
+              </Button>
+              <Button
+                icon={<DeleteOutlined />}
+                size="large"
+                onClick={() => deleteWallet()}
+                danger
+              >
+                Delete Account
+              </Button>
             </Flex>
           </Col>
         </Row>
       </div>
+
+      <Modal
+        open={open}
+        footer={null}
+        closeIcon={null}
+        onCancel={() => setOpen(false)}
+      >
+        <Flex vertical gap={10}>
+          <div>{wallet?.privateKey}</div>
+          <CopyToClipboard text={wallet?.privateKey!}>
+            <Button
+              icon={<CopyOutlined />}
+              type="primary"
+              onClick={() => setOpen(false)}
+            >
+              Copy
+            </Button>
+          </CopyToClipboard>
+        </Flex>
+      </Modal>
     </div>
   );
 }
