@@ -8,12 +8,6 @@ import { ConfigProvider } from "antd";
 import NotificationProvider from "@/components/providers/NotificationProvider";
 import { AptosWalletProvider } from "@/components/providers/AptosWalletProvider";
 import { PropsWithChildren } from "react";
-import {
-  OKXWallet,
-  PhantomWallet,
-  SolanaWeb3ConfigProvider,
-  WalletConnectWallet,
-} from "@ant-design/web3-solana";
 
 const queryClient = new QueryClient();
 
@@ -33,22 +27,7 @@ export function Providers({ children }: PropsWithChildren) {
                 },
               }}
             >
-              <AptosWalletProvider>
-                <SolanaWeb3ConfigProvider
-                  autoAddRegisteredWallets
-                  rpcProvider={rpcProvider}
-                  wallets={[
-                    PhantomWallet(),
-                    OKXWallet(),
-                    WalletConnectWallet(),
-                  ]}
-                  walletConnect={{
-                    projectId: process.env.NEXT_PUBLIC_WC_PROJECT_ID,
-                  }}
-                >
-                  {children}
-                </SolanaWeb3ConfigProvider>
-              </AptosWalletProvider>
+              <AptosWalletProvider>{children}</AptosWalletProvider>
             </ConfigProvider>
           </NotificationProvider>
         </TonConnectUIProvider>
