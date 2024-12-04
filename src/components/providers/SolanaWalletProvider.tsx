@@ -4,9 +4,10 @@ import {
   PropsWithChildren,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from "react";
-import { Keypair } from "@solana/web3.js";
+import { Connection, Keypair, PublicKey } from "@solana/web3.js";
 
 export interface SolWallet {
   privateKey: string;
@@ -16,6 +17,7 @@ export interface SolWallet {
 export interface SolWalletContextType {
   isInitialized: boolean;
   wallet: SolWallet | null;
+  balance: number;
   generateWallet: () => void;
   importWallet: (privateKey: string) => void;
   deleteWallet: () => void;
@@ -27,10 +29,17 @@ const SolWalletContext = createContext<SolWalletContextType>({
   generateWallet: () => {},
   importWallet: () => {},
   deleteWallet: () => {},
+  balance: 0,
 });
 
-export const SolWalletProvider = ({ children }: PropsWithChildren) => {
+export const SolWalletProvider = ({
+  rpcUrl,
+  children,
+}: PropsWithChildren<{ rpcUrl: string }>) => {
+  const connection = useMemo(() => new Connection(rpcUrl), [rpcUrl]);
+
   const [wallet, setWallet] = useState<SolWallet | null>(null);
+  const [balance, setBalance] = useState<number>(0);
 
   const isInitialized = !!wallet;
 
@@ -68,6 +77,17 @@ export const SolWalletProvider = ({ children }: PropsWithChildren) => {
     }
   }, []);
 
+  useEffect(() => {
+    (async () => {
+      if (!wallet?.publicKey) return;
+
+      const publicKey = new PublicKey(wallet?.publicKey!);
+      const balance = await connection.getBalance(publicKey);
+
+      setBalance(balance);
+    })();
+  }, [wallet?.publicKey, connection]);
+
   return (
     <SolWalletContext.Provider
       value={{
@@ -76,6 +96,7 @@ export const SolWalletProvider = ({ children }: PropsWithChildren) => {
         generateWallet,
         importWallet,
         deleteWallet,
+        balance,
       }}
     >
       {children}

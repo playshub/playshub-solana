@@ -12,9 +12,6 @@ import { SolWalletProvider } from "./SolanaWalletProvider";
 
 const queryClient = new QueryClient();
 
-const rpcProvider = () =>
-  `https://api.zan.top/node/v1/solana/mainnet/${process.env.NEXT_PUBLIC_ZAN_API_KEY}`;
-
 export function Providers({ children }: PropsWithChildren) {
   return (
     <WagmiProvider config={config}>
@@ -29,7 +26,11 @@ export function Providers({ children }: PropsWithChildren) {
               }}
             >
               <AptosWalletProvider>
-                <SolWalletProvider>{children}</SolWalletProvider>
+                <SolWalletProvider
+                  rpcUrl={`https://api.zan.top/node/v1/solana/mainnet/${process.env.NEXT_PUBLIC_ZAN_API_KEY}`}
+                >
+                  {children}
+                </SolWalletProvider>
               </AptosWalletProvider>
             </ConfigProvider>
           </NotificationProvider>

@@ -80,6 +80,7 @@ export default function Invite() {
                   src="/icons/invite/invite-icon.png"
                   preview={false}
                   width={80}
+                  alt=""
                 />
               </div>
               <div>

@@ -17,14 +17,13 @@ import {
   Modal,
   Popconfirm,
   Row,
-  Space,
   Typography,
 } from "antd";
 import { useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
 export default function Wallet() {
-  const { isInitialized, wallet, deleteWallet } = useSolWallet();
+  const { isInitialized, wallet, deleteWallet, balance } = useSolWallet();
   const [open, setOpen] = useState(false);
 
   if (!isInitialized) {
@@ -45,6 +44,7 @@ export default function Wallet() {
                   alt=""
                 />
               </div>
+              <div>{balance} SOL</div>
               <Flex
                 align="center"
                 style={{
