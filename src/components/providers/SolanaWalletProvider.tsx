@@ -1,5 +1,11 @@
 "use client";
-import { createContext, PropsWithChildren, useContext, useState } from "react";
+import {
+  createContext,
+  PropsWithChildren,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { Keypair } from "@solana/web3.js";
 
 export interface SolWallet {
@@ -34,6 +40,7 @@ export const SolWalletProvider = ({ children }: PropsWithChildren) => {
     const publicKey = keyPair.publicKey.toBase58();
     const privateKey = Buffer.from(keyPair.secretKey).toString("hex");
 
+    localStorage.setItem("pv_key", privateKey);
     setWallet({ publicKey, privateKey });
   };
 
@@ -44,12 +51,22 @@ export const SolWalletProvider = ({ children }: PropsWithChildren) => {
 
     const publicKey = keyPair.publicKey.toBase58();
 
+    localStorage.setItem("pv_key", privateKey);
     setWallet({ publicKey, privateKey });
   };
 
   const deleteWallet = () => {
+    localStorage.removeItem("pv_key");
     setWallet(null);
   };
+
+  useEffect(() => {
+    const privateKey = localStorage.getItem("pv_key");
+
+    if (privateKey) {
+      importWallet(privateKey);
+    }
+  }, []);
 
   return (
     <SolWalletContext.Provider
