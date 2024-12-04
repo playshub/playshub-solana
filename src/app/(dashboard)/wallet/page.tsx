@@ -15,6 +15,7 @@ import {
   Flex,
   Image,
   Modal,
+  Popconfirm,
   Row,
   Space,
   Typography,
@@ -77,14 +78,17 @@ export default function Wallet() {
               >
                 Export Private Key
               </Button>
-              <Button
-                icon={<DeleteOutlined />}
-                size="large"
-                onClick={() => deleteWallet()}
-                danger
+              <Popconfirm
+                title="Delete Account"
+                description="Are you sure to delete this account?"
+                onConfirm={() => deleteWallet()}
+                okText="Yes"
+                cancelText="No"
               >
-                Delete Account
-              </Button>
+                <Button icon={<DeleteOutlined />} size="large" danger>
+                  Delete Account
+                </Button>
+              </Popconfirm>
             </Flex>
           </Col>
         </Row>
