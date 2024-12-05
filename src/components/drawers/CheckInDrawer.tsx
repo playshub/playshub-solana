@@ -1,12 +1,13 @@
-import { Button, Drawer, Flex, Image, Space, Typography } from "antd";
+import { Button, Drawer, Flex, Image, Modal, Space, Typography } from "antd";
 import { getQuestStatus } from "../../apis/quest/get-quest-status";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { checkQuest } from "../../apis/quest/check-quest";
 import { proceedQuest } from "../../apis/quest/proceed-quest";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getProfile } from "../../apis/account/profile";
 import { useNotification } from "../providers/NotificationProvider";
 import useSolCheckIn from "@/hooks/useSolCheckIn";
+import { SOL_CHECKED_IN_AMOUNT } from "@/utils/constants";
 
 export interface CheckInDrawerProps {
   open: boolean;
@@ -20,6 +21,7 @@ export default function CheckInDrawer({ open, onClose }: CheckInDrawerProps) {
     queryFn: getQuestStatus,
   });
   const { checkIn: solCheckIn, loading } = useSolCheckIn();
+  const [openConfirm, setOpenConfirm] = useState(false);
 
   const checkQuestMutation = useMutation({
     mutationFn: () => checkQuest("DAILY", "CHECK_IN_TON_WALLET"),
@@ -31,14 +33,9 @@ export default function CheckInDrawer({ open, onClose }: CheckInDrawerProps) {
   const task = data?.find((item) => item.requestType === "CHECK_IN_TON_WALLET");
   const earn = task?.reward?.match(/PLAYS:(\d+)/)?.[1] || 0;
 
-  const { data: profileData } = useQuery({
-    queryKey: ["profile"],
-    queryFn: getProfile,
-  });
-
   const checkIn = async () => {
     await proceedQuestMutation.mutateAsync();
-    solCheckIn();
+    setOpenConfirm(true);
   };
 
   useEffect(() => {
@@ -109,6 +106,21 @@ export default function CheckInDrawer({ open, onClose }: CheckInDrawerProps) {
           </Button>
         </Flex>
       </Flex>
+      <Modal
+        onCancel={() => setOpenConfirm(false)}
+        title="Confirm"
+        open={openConfirm}
+        onOk={() => {
+          solCheckIn();
+          setOpenConfirm(false);
+        }}
+      >
+        <Flex align="center" vertical gap={10}>
+          <Typography.Text>
+            {`This will be sent ${SOL_CHECKED_IN_AMOUNT} SOL from your wallet`}
+          </Typography.Text>
+        </Flex>
+      </Modal>
     </Drawer>
   );
 }
