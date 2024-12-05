@@ -103,9 +103,11 @@ export default function ConnectWalletDrawer({
         </Flex>
         <Flex vertical align="center">
           <Typography.Text style={{ fontWeight: "bold", fontSize: 20 }}>
-            Ton Wallet
+            Solana Wallet
           </Typography.Text>
-          <Typography.Text>Connect Ton Wallet to get rewards</Typography.Text>
+          <Typography.Text>
+            Connect Solana Wallet to get rewards
+          </Typography.Text>
         </Flex>
         <Flex vertical gap={10} style={{ width: "70%" }}>
           <Button type="primary" onClick={connect} style={{ padding: 20 }}>

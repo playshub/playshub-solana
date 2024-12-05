@@ -53,6 +53,7 @@ export default function WalletInitialize() {
                 importWallet(privateKey);
               } catch (error) {
                 notification.error("Invalid private key");
+                console.error(error);
               }
             }}
             disabled={!privateKey}

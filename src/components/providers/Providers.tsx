@@ -26,9 +26,7 @@ export function Providers({ children }: PropsWithChildren) {
               }}
             >
               <AptosWalletProvider>
-                <SolWalletProvider
-                  rpcUrl={`https://api.zan.top/node/v1/solana/mainnet/${process.env.NEXT_PUBLIC_ZAN_API_KEY}`}
-                >
+                <SolWalletProvider rpcUrl={`https://api.devnet.solana.com`}>
                   {children}
                 </SolWalletProvider>
               </AptosWalletProvider>

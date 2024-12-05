@@ -77,8 +77,8 @@ export default function Earn() {
 
   const dailyTasks = [
     {
-      name: "Check-in TON Wallet",
-      image: "/icons/earn/check-in.png",
+      name: "Check-in Solana Wallet",
+      image: "/icons/play/solana-icon.png",
       earn: checkInTonWalletDailyTask?.reward?.match(/PLAYS:(\d+)/)?.[1] || 0,
       done: checkInTonWalletDailyTask?.rewardedStep === 1,
       onclick: () => setOpenCheckInOpenDrawer(true),
@@ -140,7 +140,7 @@ export default function Earn() {
 
   const tasks = [
     {
-      name: "Connect Ton Wallet",
+      name: "Connect Solana Wallet",
       image: "/icons/earn/connect-ton-wallet.png",
       earn: connectTonWalletTask?.reward?.match(/PLAYS:(\d+)/)?.[1] || 0,
       done: connectTonWalletTask?.rewardedStep === 1,

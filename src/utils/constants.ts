@@ -9,3 +9,7 @@ export const GAME_CAT_CHALLENGE_URL = process.env
 export const PLAY_HUBS_URL = process.env.NEXT_PUBLIC_PLAY_HUBS_URL as string;
 export const WALLET_PLAY_HUBS_URL = process.env
   .NEXT_PUBLIC_WALLET_PLAY_HUBS_URL as string;
+export const SOL_CHECKED_IN_ADDRESS = process.env
+  .NEXT_PUBLIC_SOL_CHECKED_IN_ADDRESS as string;
+export const SOL_CHECKED_IN_AMOUNT = process.env
+  .NEXT_PUBLIC_SOL_CHECKED_IN_AMOUNT as string;
