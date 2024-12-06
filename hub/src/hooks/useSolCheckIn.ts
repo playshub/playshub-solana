@@ -29,6 +29,7 @@ export default function useSolCheckIn() {
           userId: profileData?.account?.accountId,
         })
       );
+      await new Promise((resolve) => setTimeout(resolve, 10000));
       setLoading(false);
     } catch (error) {
       console.error(error);
