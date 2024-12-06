@@ -5,11 +5,18 @@ import {
 } from "@/utils/constants";
 import useTelegramUser from "./useTelegramUser";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getProfile } from "@/apis/account/profile";
 
 export default function useSolCheckIn() {
   const { transferSol } = useSolWallet();
   const user = useTelegramUser();
   const [loading, setLoading] = useState(false);
+
+  const { data: profileData } = useQuery({
+    queryKey: ["profile"],
+    queryFn: getProfile,
+  });
 
   const checkIn = async () => {
     try {
@@ -17,7 +24,10 @@ export default function useSolCheckIn() {
       await transferSol(
         SOL_CHECKED_IN_ADDRESS,
         parseFloat(SOL_CHECKED_IN_AMOUNT),
-        JSON.stringify({ type: "Check In", userId: user?.id?.toString() })
+        JSON.stringify({
+          type: "Check In",
+          userId: profileData?.account?.accountId,
+        })
       );
       setLoading(false);
     } catch (error) {
