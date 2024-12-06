@@ -92,8 +92,9 @@ export class AccountSubscriberService {
     retryCount = 0,
   ): Promise<ConfirmedSignatureInfo[]> {
     try {
-      const transactions =
-        await this.solanaRpcService.getSignaturesForAddress();
+      const transactions = await this.solanaRpcService.getSignaturesForAddress({
+        limit: 10,
+      });
       return transactions;
     } catch (e) {
       this.logger.error('Calling to RPC failed');
