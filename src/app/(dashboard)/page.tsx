@@ -76,6 +76,7 @@ function App() {
                   src="/icons/play/$plays-coin.png"
                   preview={false}
                   width={80}
+                  alt=""
                 />
               </div>
               <div
@@ -105,18 +106,6 @@ function App() {
                   $PLAYS
                 </Typography.Text>
               </div>
-            </Flex>
-          </Col>
-          <Col span={24}>
-            <Flex gap="large" style={{ justifyContent: "center" }}>
-              <Space style={{ alignItems: "center" }}>
-                <Image
-                  src="/icons/play/ton-icon.png"
-                  preview={false}
-                  width={30}
-                />
-                <Typography.Text>{data?.currency?.ton || 0}</Typography.Text>
-              </Space>
             </Flex>
           </Col>
         </Row>
