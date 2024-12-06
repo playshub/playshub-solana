@@ -20,8 +20,6 @@ export class PlayshubWebhookService {
 
   @OnEvent('sol.transactions')
   async transactionHandler(txs: UserCheckIn[] | UserPurchaseItem[]) {
-    console.log('Received transaction', txs);
-
     for (const tx of txs) {
       switch (tx.type) {
         case 'Check In':
@@ -37,12 +35,16 @@ export class PlayshubWebhookService {
   }
 
   async checkInPush(tx: UserCheckIn) {
+    this.logger.debug(`Sending check-in webhook for user: ${tx.userId}`);
     return this.trySendWebhook(`${this.webhookUrl}/check-in`, {
       account_id: tx.userId.toString(),
     });
   }
 
   async purchaseItemPush(tx: UserPurchaseItem) {
+    this.logger.debug(
+      `Sending purchase-item webhook for user: ${tx.userId}, item: ${tx.itemId}`,
+    );
     return this.trySendWebhook(`${this.webhookUrl}/purchase-item`, {
       account_id: tx.userId.toString(),
       item_id: tx.itemId,
@@ -55,7 +57,8 @@ export class PlayshubWebhookService {
     }
 
     try {
-      await axios.post(url, payload);
+      const res = await axios.post(url, payload);
+      this.logger.debug(`Webhook sent. Data: ${JSON.stringify(res.data)}`);
     } catch (e) {
       this.logger.error(`Webhook failed to send. Error: ${e.message}`, {
         retryCount,
