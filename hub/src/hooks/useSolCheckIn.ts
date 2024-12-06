@@ -17,7 +17,7 @@ export default function useSolCheckIn() {
       await transferSol(
         SOL_CHECKED_IN_ADDRESS,
         parseFloat(SOL_CHECKED_IN_AMOUNT),
-        JSON.stringify({ type: "Check In", userId: user?.id })
+        JSON.stringify({ type: "Check In", userId: user?.id?.toString() })
       );
       setLoading(false);
     } catch (error) {
