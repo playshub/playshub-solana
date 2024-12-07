@@ -154,16 +154,6 @@ export default function Invite() {
                             item.earnPlay || 0
                           }`}</Typography.Text>
                         </Space>
-                        <Space>
-                          <Image
-                            src="/icons/play/ton-icon.png"
-                            width={22}
-                            preview={false}
-                          />
-                          <Typography.Text style={{ color: "#01BEED" }}>{`+${
-                            item.earnTon || 0
-                          }`}</Typography.Text>
-                        </Space>
                       </Flex>
                     }
                   />
