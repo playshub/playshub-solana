@@ -24,7 +24,7 @@ export default function CheckInDrawer({ open, onClose }: CheckInDrawerProps) {
     queryKey: ["get_quest_status"],
     queryFn: getQuestStatus,
   });
-  const { checkIn: solCheckIn, loading } = useSolCheckIn();
+  const { checkIn: solCheckIn, loading, success } = useSolCheckIn();
   const [openConfirm, setOpenConfirm] = useState(false);
   const [openCreateWallet, setOpenCreateWallet] = useState(false);
 
@@ -66,10 +66,10 @@ export default function CheckInDrawer({ open, onClose }: CheckInDrawerProps) {
   }, [checkQuestMutation.isError]);
 
   useEffect(() => {
-    if (!loading) {
+    if (success) {
       notification.success("Check-in successful. Please check to get reward");
     }
-  }, [loading]);
+  }, [success]);
 
   return (
     <Drawer open={open} footer={null} placement="bottom" onClose={onClose}>

@@ -12,6 +12,7 @@ export default function useSolCheckIn() {
   const { transferSol } = useSolWallet();
   const user = useTelegramUser();
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const { data: profileData } = useQuery({
     queryKey: ["profile"],
@@ -21,6 +22,7 @@ export default function useSolCheckIn() {
   const checkIn = async () => {
     try {
       setLoading(true);
+      setSuccess(false);
       await transferSol(
         SOL_CHECKED_IN_ADDRESS,
         parseFloat(SOL_CHECKED_IN_AMOUNT),
@@ -31,6 +33,7 @@ export default function useSolCheckIn() {
       );
       await new Promise((resolve) => setTimeout(resolve, 10000));
       setLoading(false);
+      setSuccess(true);
     } catch (error) {
       console.error(error);
       setLoading(false);
@@ -38,5 +41,5 @@ export default function useSolCheckIn() {
     }
   };
 
-  return { checkIn, loading };
+  return { checkIn, loading, success };
 }
