@@ -1,9 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import {
-  useTonAddress,
-  useTonConnectModal,
-  useTonConnectUI,
-} from "@tonconnect/ui-react";
+
 import { Button, Drawer, Flex, Image, Space, Typography } from "antd";
 import { getQuestStatus } from "../../apis/quest/get-quest-status";
 import { checkQuest } from "../../apis/quest/check-quest";
@@ -11,6 +7,8 @@ import { proceedQuest } from "../../apis/quest/proceed-quest";
 import { useEffect } from "react";
 import { useNotification } from "../providers/NotificationProvider";
 import { connectTonWallet } from "../../apis/account/connect-wallet";
+import { useRouter } from "next/navigation";
+import { useSolWallet } from "../providers/SolanaWalletProvider";
 
 export interface ConnectWalletDrawerProps {
   open: boolean;
@@ -21,10 +19,9 @@ export default function ConnectWalletDrawer({
   open,
   onClose,
 }: ConnectWalletDrawerProps) {
-  const { open: openTonConnectModal } = useTonConnectModal();
-  const userFriendlyAddress = useTonAddress();
+  const router = useRouter();
+  const { isInitialized } = useSolWallet();
 
-  const [tonConnectUI] = useTonConnectUI();
   const { data, refetch } = useQuery({
     queryKey: ["get_quest_status"],
     queryFn: getQuestStatus,
@@ -35,21 +32,18 @@ export default function ConnectWalletDrawer({
   const proceedQuestMutation = useMutation({
     mutationFn: () => proceedQuest("TASK", "CONNECT_TON_WALLET"),
   });
-  const connectWalletMutation = useMutation({
-    mutationFn: (address: string) => connectTonWallet(address),
-  });
 
   const task = data?.find((item) => item.requestType === "CONNECT_TON_WALLET");
   const earn = task?.reward?.match(/PLAYS:(\d+)/)?.[1] || 0;
 
   const connect = async () => {
     await proceedQuestMutation.mutateAsync();
-    if (tonConnectUI.connected) {
-      notification.warning("You have completed the quest");
+    if (isInitialized) {
+      notification.info("You have connected the wallet");
       return;
     }
 
-    openTonConnectModal();
+    router.push("/wallet");
     onClose();
     return;
   };
@@ -72,12 +66,6 @@ export default function ConnectWalletDrawer({
       }
     }
   }, [checkQuestMutation.isError]);
-
-  useEffect(() => {
-    if (tonConnectUI.connected) {
-      connectWalletMutation.mutate(userFriendlyAddress);
-    }
-  }, [tonConnectUI.connected, userFriendlyAddress]);
 
   return (
     <Drawer open={open} footer={null} placement="bottom" onClose={onClose}>
