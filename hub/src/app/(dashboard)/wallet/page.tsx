@@ -94,8 +94,8 @@ export default function Wallet() {
                 Export Private Key
               </Button>
               <Popconfirm
-                title="Delete Account"
-                description="Are you sure to delete this account?"
+                title="Delete Wallet"
+                description="Are you sure to delete this wallet?"
                 onConfirm={() => deleteWallet()}
                 okText="Yes"
                 cancelText="No"
@@ -105,7 +105,7 @@ export default function Wallet() {
                   size="large"
                   style={{ background: "#F3816F", color: "white" }}
                 >
-                  Delete Account
+                  Delete Wallet
                 </Button>
               </Popconfirm>
             </Flex>

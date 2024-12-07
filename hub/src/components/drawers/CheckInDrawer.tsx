@@ -8,6 +8,8 @@ import { getProfile } from "../../apis/account/profile";
 import { useNotification } from "../providers/NotificationProvider";
 import useSolCheckIn from "@/hooks/useSolCheckIn";
 import { SOL_CHECKED_IN_AMOUNT } from "@/utils/constants";
+import { useSolWallet } from "../providers/SolanaWalletProvider";
+import { useRouter } from "next/navigation";
 
 export interface CheckInDrawerProps {
   open: boolean;
@@ -15,13 +17,16 @@ export interface CheckInDrawerProps {
 }
 
 export default function CheckInDrawer({ open, onClose }: CheckInDrawerProps) {
+  const { isInitialized } = useSolWallet();
   const notification = useNotification()!;
+  const router = useRouter();
   const { data, refetch } = useQuery({
     queryKey: ["get_quest_status"],
     queryFn: getQuestStatus,
   });
   const { checkIn: solCheckIn, loading } = useSolCheckIn();
   const [openConfirm, setOpenConfirm] = useState(false);
+  const [openCreateWallet, setOpenCreateWallet] = useState(false);
 
   const checkQuestMutation = useMutation({
     mutationFn: () => checkQuest("DAILY", "CHECK_IN_TON_WALLET"),
@@ -35,6 +40,10 @@ export default function CheckInDrawer({ open, onClose }: CheckInDrawerProps) {
 
   const checkIn = async () => {
     await proceedQuestMutation.mutateAsync();
+    if (!isInitialized) {
+      setOpenCreateWallet(true);
+      return;
+    }
     setOpenConfirm(true);
   };
 
@@ -55,6 +64,12 @@ export default function CheckInDrawer({ open, onClose }: CheckInDrawerProps) {
       }
     }
   }, [checkQuestMutation.isError]);
+
+  useEffect(() => {
+    if (!loading) {
+      notification.success("Check-in successful. Please check to get reward");
+    }
+  }, [loading]);
 
   return (
     <Drawer open={open} footer={null} placement="bottom" onClose={onClose}>
@@ -118,6 +133,22 @@ export default function CheckInDrawer({ open, onClose }: CheckInDrawerProps) {
         <Flex align="center" vertical gap={10}>
           <Typography.Text>
             {`This will be sent ${SOL_CHECKED_IN_AMOUNT} SOL from your wallet`}
+          </Typography.Text>
+        </Flex>
+      </Modal>
+
+      <Modal
+        onCancel={() => setOpenCreateWallet(false)}
+        title="Confirm"
+        open={openCreateWallet}
+        onOk={() => {
+          router.push("/wallet");
+          setOpenCreateWallet(false);
+        }}
+      >
+        <Flex align="center" vertical gap={10}>
+          <Typography.Text>
+            {`You haven't have the wallet yet, do you want to create one?`}
           </Typography.Text>
         </Flex>
       </Modal>
