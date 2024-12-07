@@ -101,7 +101,7 @@ export const SolWalletProvider = ({
       transferTransaction.add(
         new TransactionInstruction({
           keys: [
-            { pubkey: new PublicKey(to), isSigner: true, isWritable: true },
+            { pubkey: keyPair.publicKey, isSigner: true, isWritable: true },
           ],
           data: Buffer.from(memo, "utf-8"),
           programId: new PublicKey(
