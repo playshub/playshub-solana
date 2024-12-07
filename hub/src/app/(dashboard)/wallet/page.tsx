@@ -44,7 +44,22 @@ export default function Wallet() {
                   alt=""
                 />
               </div>
-              <div>{balance} SOL</div>
+              <Flex
+                align="center"
+                style={{
+                  background: "#DBDBDB",
+                  padding: "5px 40px",
+                  borderRadius: 10,
+                  marginBottom: 10,
+                }}
+              >
+                <Typography.Text style={{ flex: 1, fontWeight: "bold" }}>
+                  {balance}{" "}
+                  <Typography.Text style={{ color: "#8B4FF5" }}>
+                    SOL
+                  </Typography.Text>
+                </Typography.Text>
+              </Flex>
               <Flex
                 align="center"
                 style={{
@@ -62,13 +77,13 @@ export default function Wallet() {
               </Flex>
             </Flex>
           </Col>
-          <Col span={24}>
+          <Col span={24} style={{ paddingLeft: 20, paddingRight: 20 }}>
             <Divider />
             <Typography.Text style={{ fontSize: 16, fontWeight: "bold" }}>
               Privacy
             </Typography.Text>
           </Col>
-          <Col span={24}>
+          <Col span={24} style={{ paddingLeft: 20, paddingRight: 20 }}>
             <Flex vertical gap={10}>
               <Button
                 icon={<ExportOutlined />}
@@ -85,7 +100,11 @@ export default function Wallet() {
                 okText="Yes"
                 cancelText="No"
               >
-                <Button icon={<DeleteOutlined />} size="large" danger>
+                <Button
+                  icon={<DeleteOutlined />}
+                  size="large"
+                  style={{ background: "#F3816F", color: "white" }}
+                >
                   Delete Account
                 </Button>
               </Popconfirm>
