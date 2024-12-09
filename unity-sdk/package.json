@@ -1,5 +1,5 @@
 {
-  "name": "unity-sdk",
+  "name": "@cuonghx.ngen/sol-unity-sdk",
   "version": "0.0.1",
   "main": "dist/index.js",
   "directories": {
@@ -20,9 +20,6 @@
     "typescript": "^5.5.2",
     "webpack": "^5.92.1",
     "webpack-cli": "^5.1.4"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
   },
   "dependencies": {
     "@solana/web3.js": "^1.95.8",
