@@ -1,15 +1,16 @@
-# Playshub Ton SDK
+# Unity SDK
+
+SDK for seamless integration with the solana network (sending sol, purchasing item, get balance) in pure JavaScript, making it easy to embed within Unity. (JS, Unity)
 
 ## Features
 
-- Support connect your app to TON wallets via TonConnectUI
-- Send transaction with comment via plain-text
-  - Support convert plain-text to BoC
+- Interact with SOL wallet
+- Purchasing item by sending SOL transactions
 
 ## Technique
 
-- @tonconnect/ui: TonConnect UI is a UI kit for TonConnect SDK. Use it to connect your app to TON wallets via TonConnect protocol.
-- tonweb: Utils library for working TON, especially TON BoC
+- @solana/web3js: a JavaScript library that provides tools for interacting with the Solana blockchain
+- webpack: a powerful JavaScript bundler that compiles and packages modules, assets, and dependencies into optimized bundles for use in Unity HTML5.
 
 # Getting Started
 
@@ -18,13 +19,13 @@
 - Add the script to your HTML file:
 
 ```html
-<script src="https://unpkg.com/unity-sdk@latest"></script>
+<script src="https://unpkg.com/@cuonghx.ngen/sol-unity-sdk@latest"></script>
 ```
 
 - ℹ️ If you don't want auto-update the library, pass concrete version instead of latest, e.g.
 
 ```html
-<script src="https://unpkg.com/unity-sdk@0.0.1"></script>
+<script src="https://unpkg.com/@cuonghx.ngen/sol-unity-sdk@0.0.1"></script>
 ```
 
 - Add `load-sdk.js` scripts
@@ -37,14 +38,15 @@
 
 ```js
 const plugin = new SolUnitySDK.default({
-  manifestUrl: "https://<YOUR_APP_URL>/tonconnect-manifest.json",
+  privateKey: "xxx",
+  purchaseItemAddress: "xxx",
 });
 ```
 
 ## Install with npm
 
 ```shell
-npm i unity-sdk
+npm i @cuonghx.ngen/sol-unity-sdk
 ```
 
 # Usage
@@ -53,24 +55,15 @@ npm i unity-sdk
 
 ```jslib
 mergeInto(LibraryManager.library, {
-  Connect: function () {
-    plugin.connect();
-  },
-  Disconnect: function () {
-    plugin.disconnect();
-  },
-  IsConnected: function () {
-    return plugin.isConnected();
-  },
-  GetAccount: function () {
-    var returnStr = plugin.getAccount();
+  GetPublicAddress: function () {
+    var returnStr = plugin.getPublicAddress();
     var bufferSize = lengthBytesUTF8(returnStr) + 1;
     var buffer = _malloc(bufferSize);
     stringToUTF8(returnStr, buffer, bufferSize);
     return buffer;
   },
-  SendTon: async function (args) {
-    var returnStr = await plugin.sendTon(UTF8ToString(args));
+  PurchaseItem: async function (args) {
+    var returnStr = await plugin.purchaseItem(UTF8ToString(args));
     var bufferSize = lengthBytesUTF8(returnStr) + 1;
     var buffer = _malloc(bufferSize);
     stringToUTF8(returnStr, buffer, bufferSize);
@@ -79,45 +72,13 @@ mergeInto(LibraryManager.library, {
 });
 ```
 
-| Function             | Description                                      |
-| -------------------- | ------------------------------------------------ |
-| plugin.connect()     | Connect your app to TON wallets via TonConnectUI |
-| plugin.disconnect()  | Disconnect your app from TON wallets             |
-| plugin.isConnected() | Return connected status                          |
-| plugin.getAccount()  | Return account connected address                 |
-| plugin.sendTon()     | Send transaction with comment via plaint-text    |
-| plugin.getBalance()  | Get balance of connected address                 |
+| Function              | Description                           |
+| --------------------- | ------------------------------------- |
+| plugin.getPublicKey() | Return account connected address      |
+| plugin.purchaseItem() | Send transaction form purchasing item |
+| plugin.getBalance()   | Get balance of connected address      |
 
 ## Examples
-
-- GetAccount
-
-```js
-plugin.getAccount();
-{
-  account: "UQAbB+ykyJKBtL17EUxDOyL2H55aakn05uDVW06aH0wJNLJB"; // friendly-address
-  chain: "TESTNET"; // testnet or mainnet
-}
-```
-
-- GetBalance
-
-```js
-plugin.getBalance(); // TON
-```
-
-- SendTon
-
-```js
-plugin.sendTon(
-  JSON.stringify({
-    validUntil: Math.floor(Date.now() / 1000) + 60,
-    address: "UQDv9l280Mdnlq9GFOsM-boZ6Kc2af8imSsblRSW0vBvV8io",
-    amount: "20000000", // nanoton
-    comment: "test test test test test", // send with comment via plain-text
-  })
-);
-```
 
 - Complete example via [Examples](./examples/)
 

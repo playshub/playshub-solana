@@ -11,7 +11,7 @@
 
 - Nestjs: Index work and parse Solana transaction and express api server
 - Socket.io: Push payment transaction to game server
-- @solana/web3js:
+- @solana/web3js: a JavaScript library that provides tools for interacting with the Solana blockchain
 
 # How to run
 
