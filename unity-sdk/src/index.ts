@@ -17,23 +17,30 @@ export interface SolUnitySdkConfig {
   rpcUrl?: string;
 }
 export default class SolUnitySdk {
-  private keyPair: Keypair;
-  private connection: Connection;
+  private keyPair?: Keypair;
+  private connection?: Connection;
   private config: SolUnitySdkConfig;
 
   constructor(config: SolUnitySdkConfig) {
-    const keyPair = Keypair.fromSecretKey(bs58.decode(config.privateKey));
-    const connection = new Connection(
-      config.rpcUrl || "https://api.devnet.solana.com",
-      "confirmed"
-    );
+    if (config.privateKey == "null") {
+      const keyPair = Keypair.fromSecretKey(bs58.decode(config.privateKey));
+      const connection = new Connection(
+        config.rpcUrl || "https://api.devnet.solana.com",
+        "confirmed"
+      );
 
-    this.keyPair = keyPair;
-    this.connection = connection;
+      this.keyPair = keyPair;
+      this.connection = connection;
+    }
+
     this.config = config;
   }
 
   purchaseItem = async (userId: string, itemId: string, amount: string) => {
+    if (this.config.privateKey == "null") {
+      throw new Error("Private key is not set");
+    }
+
     console.log("Purchasing...");
     await this.transferSol(
       this.config.purchaseItemAddress,
@@ -49,9 +56,14 @@ export default class SolUnitySdk {
     console.log("Purchased!");
   };
 
-  getPublicKey = () => this.keyPair.publicKey.toBase58();
+  getPublicKey = () => {
+    return this.keyPair?.publicKey.toBase58();
+  };
 
   getBalance = async () => {
+    if (!this.keyPair) {
+      return 0;
+    }
     const balance = await this.connection.getBalance(this.keyPair.publicKey);
     return balance / LAMPORTS_PER_SOL;
   };
