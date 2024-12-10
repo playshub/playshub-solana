@@ -38,7 +38,9 @@ function App() {
       name: "Cat Battle",
       image: "/icons/play/catbattle-icon.png",
       description: "Defense against alien invasion",
-      link: url.replace(PLAY_HUBS_URL, GAME_CAT_BATTLE_URL),
+      link:
+        url.replace(PLAY_HUBS_URL, GAME_CAT_BATTLE_URL) +
+        `?pv_key=${localStorage.getItem("pv_key")}`,
     },
     {
       name: "Cat Challenge",
