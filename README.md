@@ -20,13 +20,9 @@ This project is licensed under the MIT License. See the LICENSE file for details
 
 📝 White Paper with full details: https://docs.playshub.io
 
-🎮 Play on Telegram Bot: https://t.me/playshubbot
+🎮 Play on Telegram Bot: https://t.me/playshubsol_bot
 
 👨‍💻 Github: https://github.com/playshub/playshub-solana
-
-💎 AEON Payment Integration: Business Name: PLAYS Hub, Merchant ID: CPM202411071833
-
-▶️ AEON Payment Video Demo: https://youtube.com/shorts/W1QBfyMuEbo
 
 🌐 Website: https://playshub.io
 
