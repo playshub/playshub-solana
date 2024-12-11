@@ -22,7 +22,7 @@ export default class SolUnitySdk {
   private config: SolUnitySdkConfig;
 
   constructor(config: SolUnitySdkConfig) {
-    if (config.privateKey == "null") {
+    if (config.privateKey != "null") {
       const keyPair = Keypair.fromSecretKey(bs58.decode(config.privateKey));
       const connection = new Connection(
         config.rpcUrl || "https://api.devnet.solana.com",
@@ -67,6 +67,8 @@ export default class SolUnitySdk {
     const balance = await this.connection.getBalance(this.keyPair.publicKey);
     return balance / LAMPORTS_PER_SOL;
   };
+
+  isInitialized = () => Boolean(this.keyPair);
 
   private transferSol = async (to: string, sol: number, memo?: string) => {
     const transferTransaction = new Transaction().add(
