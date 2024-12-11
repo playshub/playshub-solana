@@ -37,23 +37,34 @@ export default class SolUnitySdk {
   }
 
   purchaseItem = async (userId: string, itemId: string, amount: string) => {
-    if (this.config.privateKey == "null") {
-      throw new Error("Private key is not set");
-    }
+    try {
+      console.log(`userId: ${userId}, itemId: ${itemId}, amount: ${amount}`);
 
-    console.log("Purchasing...");
-    await this.transferSol(
-      this.config.purchaseItemAddress,
-      parseFloat(amount),
-      JSON.stringify({
-        type: "Purchase Item",
-        userId,
-        itemId,
-      })
-    );
-    console.log("Confirming...");
-    await new Promise((resolve) => setTimeout(resolve, 10000));
-    console.log("Purchased!");
+      if ((await this.getBalance()) < parseFloat(amount)) {
+        throw new Error("Insufficient balance");
+      }
+
+      if (this.config.privateKey == "null") {
+        throw new Error("Private key is not set");
+      }
+
+      console.log("Purchasing...");
+      await this.transferSol(
+        this.config.purchaseItemAddress,
+        parseFloat(amount),
+        JSON.stringify({
+          type: "Purchase Item",
+          userId,
+          itemId,
+        })
+      );
+      console.log("Confirming...");
+      await new Promise((resolve) => setTimeout(resolve, 10000));
+      console.log("Purchased!");
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   };
 
   getPublicKey = () => {
