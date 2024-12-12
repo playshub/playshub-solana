@@ -44,10 +44,9 @@ export default function Invite() {
     queryKey: ["invite_reward_config"],
     queryFn: getInviteRewardConfig,
   });
-
   const invite = async () => {
     openTelegramLink(
-      `https://t.me/share/url?url=https://t.me/playshubbot/hub?startapp=ref_${profileData?.account?.accountId}`
+      `https://t.me/share/url?url=https://t.me/playshubsol_bot/hub?startapp=ref_${profileData?.account?.accountId}`
     );
   };
 
