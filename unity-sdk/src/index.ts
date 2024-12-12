@@ -22,10 +22,12 @@ export default class SolUnitySdk {
   private config: SolUnitySdkConfig;
 
   constructor(config: SolUnitySdkConfig) {
+    console.log("-----------SolUnitySdk initialized-----------");
+    console.log("config:", config);
     if (config.privateKey != "null") {
       const keyPair = Keypair.fromSecretKey(bs58.decode(config.privateKey));
       const connection = new Connection(
-        config.rpcUrl || "https://api.devnet.solana.com",
+        config.rpcUrl || "https://rpc.ankr.com/solana_devnet",
         "confirmed"
       );
 
