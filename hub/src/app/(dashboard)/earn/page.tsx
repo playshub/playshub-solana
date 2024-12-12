@@ -29,6 +29,7 @@ import PlayCatLuckyDrawer from "../../../components/drawers/PlayCatLuckyDrawer";
 import CheckInBnBDrawer from "../../../components/drawers/CheckInBnBDrawer";
 import ConnectAptosWalletDrawer from "../../../components/drawers/ConnectAptosWalletDrawer";
 import { useNotification } from "@/components/providers/NotificationProvider";
+import CreateSolProfileDrawer from "@/components/drawers/CreateSolProfileDrawer";
 
 export default function Earn() {
   const notification = useNotification()!;
@@ -45,6 +46,8 @@ export default function Earn() {
   const [openJoinPlaysChatDrawer, setOpenJoinPlaysChatDrawer] = useState(false);
   const [openFollowXDrawer, setOpenFollowXDrawer] = useState(false);
   const [openConnectAptosDrawer, setOpenConnectAptosOpenDrawer] =
+    useState(false);
+  const [openCreateSolProfileDrawer, setOpenCreateSolProfileDrawer] =
     useState(false);
 
   const { data, isLoading } = useQuery({
@@ -137,8 +140,20 @@ export default function Earn() {
   const connectAptosWalletTask = data?.find(
     (item) => item.requestType === "CONNECT_APTOS_WALLET"
   );
+  const createSolProfileTask = data?.find(
+    (item) => item.requestType === "CREATE_SOL_PROFILE"
+  );
 
   const tasks = [
+    {
+      name: "Create Solana Profile",
+      image: "/icons/earn/honeycomb.png",
+      earn: createSolProfileTask?.reward?.match(/PLAYS:(\d+)/)?.[1] || 0,
+      done: createSolProfileTask?.rewardedStep === 1,
+      onclick: () => {
+        setOpenCreateSolProfileDrawer(true);
+      },
+    },
     {
       name: "Connect Solana Wallet",
       image: "/icons/earn/connect-ton-wallet.png",
@@ -409,6 +424,12 @@ export default function Earn() {
           open={openFollowXDrawer}
           onClose={() => {
             setOpenFollowXDrawer(false);
+          }}
+        />
+        <CreateSolProfileDrawer
+          open={openCreateSolProfileDrawer}
+          onClose={() => {
+            setOpenCreateSolProfileDrawer(false);
           }}
         />
       </div>
