@@ -9,6 +9,7 @@ import NotificationProvider from "@/components/providers/NotificationProvider";
 import { AptosWalletProvider } from "@/components/providers/AptosWalletProvider";
 import { PropsWithChildren } from "react";
 import { SolWalletProvider } from "./SolanaWalletProvider";
+import { SOLANA_RPC_URL } from "@/utils/constants";
 
 const queryClient = new QueryClient();
 
@@ -26,7 +27,7 @@ export function Providers({ children }: PropsWithChildren) {
               }}
             >
               <AptosWalletProvider>
-                <SolWalletProvider rpcUrl={`https://api.devnet.solana.com`}>
+                <SolWalletProvider rpcUrl={SOLANA_RPC_URL}>
                   {children}
                 </SolWalletProvider>
               </AptosWalletProvider>
