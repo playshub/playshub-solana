@@ -78,11 +78,11 @@ export default function CreateSolProfileDrawer({
           <Typography.Text style={{ fontWeight: "bold", fontSize: 20 }}>
             PLAYS Chat
           </Typography.Text>
-          <Typography.Text>Join PLAYS Chat to get rewards</Typography.Text>
+          <Typography.Text>Create Solana profile to get reward</Typography.Text>
         </Flex>
         <Flex vertical gap={10} style={{ width: "70%" }}>
           <Button type="primary" onClick={create} style={{ padding: 20 }}>
-            Join
+            Create
           </Button>
           <Button
             type="default"
