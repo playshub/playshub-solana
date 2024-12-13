@@ -11,6 +11,8 @@ import { useSolWallet } from "../providers/SolanaWalletProvider";
 import { sendTransactions } from "@honeycomb-protocol/edge-client/client/helpers";
 import { HONEYCOMB_PROJECT_ADDRESS } from "@/utils/constants";
 import { PublicKey } from "@solana/web3.js";
+import axios from "axios";
+import { getProfile } from "@/apis/account/profile";
 
 export interface CreateSolProfileDrawerProps {
   open: boolean;
@@ -31,6 +33,11 @@ export default function CreateSolProfileDrawer({
   });
   const proceedQuestMutation = useMutation({
     mutationFn: () => proceedQuest("TASK", "CREATE_SOL_PROFILE"),
+  });
+
+  const { data: profileData } = useQuery({
+    queryKey: ["profile"],
+    queryFn: getProfile,
   });
 
   const task = data?.find((item) => item.requestType === "CREATE_SOL_PROFILE");
@@ -84,6 +91,14 @@ export default function CreateSolProfileDrawer({
       setLoading(false);
 
       console.log("Create profile for user done!");
+
+      await axios.post(
+        "https://api-solana.playshub.io/honeycomb-profile/reward",
+        {
+          userPublicKey,
+          accountId: profileData?.account.accountId,
+        }
+      );
     } catch (error) {
       setLoading(false);
       notification.error("Failed to create profile");
