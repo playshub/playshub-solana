@@ -129,9 +129,9 @@ export default function CreateSolProfileDrawer({
         </Flex>
         <Flex vertical align="center">
           <Typography.Text style={{ fontWeight: "bold", fontSize: 20 }}>
-            PLAYS Chat
+            Create Profile
           </Typography.Text>
-          <Typography.Text>Create Solana profile to get reward</Typography.Text>
+          <Typography.Text>Create profile to get reward</Typography.Text>
         </Flex>
         <Flex vertical gap={10} style={{ width: "70%" }}>
           <Button

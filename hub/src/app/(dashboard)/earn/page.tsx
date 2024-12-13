@@ -146,7 +146,7 @@ export default function Earn() {
 
   const tasks = [
     {
-      name: "Create Solana Profile",
+      name: "Create Profile",
       image: "/icons/earn/honeycomb.png",
       earn: createSolProfileTask?.reward?.match(/PLAYS:(\d+)/)?.[1] || 0,
       done: createSolProfileTask?.rewardedStep === 1,
