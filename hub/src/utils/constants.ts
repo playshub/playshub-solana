@@ -15,3 +15,9 @@ export const SOL_CHECKED_IN_AMOUNT = process.env
   .NEXT_PUBLIC_SOL_CHECKED_IN_AMOUNT as string;
 export const SOLANA_RPC_URL =
   process.env.NEXT_PUBLIC_SOLANA_RPC_URL || "https://api.devnet.solana.com";
+
+export const HONEYCOMB_PROJECT_ADDRESS = process.env
+  .NEXT_PUBLIC_HONEYCOMB_PROJECT_ADDRESS as string;
+
+export const HONEYCOMB_ADMIN_PRIVATE_KEY = process.env
+  .NEXT_PUBLIC_ADMIN_HONEYCOMB_PRIVATE_KEY as string;
