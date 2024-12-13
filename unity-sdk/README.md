@@ -9,8 +9,8 @@ SDK for seamless integration with the solana network (sending sol, purchasing it
 
 ## Payment process
 - The user sends a transaction with an attached memo containing userId and itemId.
-- The indexer service polls via RPC to confirm the purchase. Upon successful confirmation.
-- The indexer service notifies the game server to update the purchased resources.
+- The indexer service polls via RPC to confirm the purchase. 
+- Upon successful confirmation, the indexer service notifies the game server to update the purchased resources.
 
 ## Technique
 
