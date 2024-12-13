@@ -7,6 +7,11 @@ SDK for seamless integration with the solana network (sending sol, purchasing it
 - Interact with SOL wallet
 - Purchasing item by sending SOL transactions
 
+## Payment process
+- The user sends a transaction with an attached memo containing userId and itemId.
+- The indexer service polls via RPC to confirm the purchase. Upon successful confirmation.
+- The indexer service notifies the game server to update the purchased resources.
+
 ## Technique
 
 - @solana/web3js: a JavaScript library that provides tools for interacting with the Solana blockchain
