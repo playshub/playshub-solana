@@ -5,6 +5,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { AccountSubscriberModule } from './modules/account-subscriber/account-subscriber.module';
 import { NotificationModule } from './modules/notification/notification.module';
 import { TelegramBotModule } from './modules/telegram-bot/telegram-bot.module';
+import { HoneycombProfileModule } from './modules/honeycomb/honeycomb-profile.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { TelegramBotModule } from './modules/telegram-bot/telegram-bot.module';
     AccountSubscriberModule,
     NotificationModule,
     TelegramBotModule,
+    HoneycombProfileModule,
   ],
 })
 export class AppModule {}

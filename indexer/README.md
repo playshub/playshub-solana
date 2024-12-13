@@ -6,12 +6,14 @@
 
 - Handle Solana payment for Playshub shop
 - Send proceed payment events via webhooks
+- Honeycomb intergration: Manage project and user profile
 
 # Technique
 
 - Nestjs: Index work and parse Solana transaction and express api server
 - Socket.io: Push payment transaction to game server
 - @solana/web3js: a JavaScript library that provides tools for interacting with the Solana blockchain
+- @honeycomb-protocol/edge-client: Honeycomb protocol intergration
 
 # How to run
 
@@ -43,6 +45,7 @@ playshub-blockchain/
 ├── src/
 │   ├── modules/
 │   │   ├── account-subscriber/
+│   │   ├── honeycomb/
 │   │   ├── notification/
 │   │   └── solana-rpc/
 │   ├── types/
@@ -56,6 +59,7 @@ playshub-blockchain/
 
 - `src/`:` Contains the source code, including components and styles.
 - `modules/account-subscriber`: Handle payment by Solana by polling
+- `modules/honeycomb`: Honeycomb protocol intergration
 - `modules/notification`: Send `ws` or `webhook` for service listeners
 - `modules/solana-rpc`: Solana client
 - `utils/`: Contains utility functions, classes, and other helper modules that are used throughout the project

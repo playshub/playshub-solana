@@ -34,6 +34,16 @@ export class PlayshubWebhookService {
     }
   }
 
+  @OnEvent('honeycomb-profile.created')
+  async honeycombProfileCreatedHandler(payload: { accountId: string }) {
+    this.logger.debug(
+      `Sending honeycomb-profile-created webhook for account: ${payload.accountId}`,
+    );
+    return this.trySendWebhook(`${this.webhookUrl}/create-sol-profile`, {
+      account_id: payload.accountId,
+    });
+  }
+
   async checkInPush(tx: UserCheckIn) {
     this.logger.debug(`Sending check-in webhook for user: ${tx.userId}`);
     return this.trySendWebhook(`${this.webhookUrl}/check-in`, {
