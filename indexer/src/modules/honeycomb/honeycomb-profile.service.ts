@@ -30,7 +30,7 @@ export class HoneycombProfileService {
     });
     const user = users.user[0];
 
-    if (user) {
+    if (!user) {
       throw new Error('User not found');
     }
 
