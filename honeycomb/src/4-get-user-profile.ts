@@ -8,7 +8,7 @@ async function getUserProfile() {
   console.log(users.user[0]);
   const user = users.user[0];
 
-  if (user) {
+  if (!user) {
     console.log("User not found");
     return;
   }
