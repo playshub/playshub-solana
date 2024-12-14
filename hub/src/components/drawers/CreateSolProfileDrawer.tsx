@@ -99,6 +99,10 @@ export default function CreateSolProfileDrawer({
           accountId: profileData?.account.accountId,
         }
       );
+
+      notification.success(
+        "Create profile successful. Please check to get reward"
+      );
     } catch (error) {
       setLoading(false);
       notification.error("Failed to create profile");
